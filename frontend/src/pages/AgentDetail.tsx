@@ -40,7 +40,12 @@ export function AgentDetail() {
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={() => navigate(`/agents/${agent.id}/edit`)}>Edit</Button>
           <Button variant="danger" onClick={handleDelete}>Delete</Button>
-          <Button onClick={() => setShowRunForm(!showRunForm)}>Run</Button>
+          <Button
+            onClick={() => setShowRunForm(!showRunForm)}
+            disabled={agent.status !== 'ready'}
+          >
+            {agent.status === 'creating' ? 'Generating...' : 'Run'}
+          </Button>
         </div>
       </div>
 

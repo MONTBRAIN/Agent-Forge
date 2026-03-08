@@ -3,11 +3,28 @@ import { agentsApi } from '../api/agents';
 import type { AgentCreate, AgentUpdate } from '../types';
 
 export function useAgents() {
-  return useQuery({ queryKey: ['agents'], queryFn: agentsApi.list });
+  return useQuery({
+    queryKey: ['agents'],
+    queryFn: agentsApi.list,
+    refetchInterval: (query) => {
+      const agents = query.state.data;
+      if (agents && agents.some((a: { status: string }) => a.status === 'creating')) return 3000;
+      return false;
+    },
+  });
 }
 
 export function useAgent(id: string) {
-  return useQuery({ queryKey: ['agents', id], queryFn: () => agentsApi.get(id), enabled: !!id });
+  return useQuery({
+    queryKey: ['agents', id],
+    queryFn: () => agentsApi.get(id),
+    enabled: !!id,
+    refetchInterval: (query) => {
+      const agent = query.state.data;
+      if (agent && agent.status === 'creating') return 3000;
+      return false;
+    },
+  });
 }
 
 export function useCreateAgent() {
