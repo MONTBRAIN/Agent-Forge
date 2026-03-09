@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# Agent Forge Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React dashboard for managing agents, running workflows, and viewing results. Cross-platform: works on Windows, macOS, and Linux.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Node.js >= 22** (LTS)
+- **npm >= 10**
 
-## React Compiler
+### Install Node.js
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use [nvm](https://github.com/nvm-sh/nvm) (recommended -- manages multiple Node versions, works on all platforms):
 
-## Expanding the ESLint configuration
+```bash
+# Linux/macOS: install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Windows: use nvm-windows from https://github.com/coreybutler/nvm-windows
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Then install and use Node 22
+nvm install 22
+nvm use 22
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Or use the system package manager:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Ubuntu/Debian
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# macOS (Homebrew)
+brew install node@22
+
+# Windows
+# Download from https://nodejs.org/
 ```
+
+## Setup
+
+```bash
+cd frontend
+npm install
+```
+
+## Development
+
+```bash
+npm run dev
+```
+
+Opens at http://localhost:3000. Proxies `/api` to the backend at `http://127.0.0.1:8000`.
+
+The backend must be running for the frontend to work. See [api/ README](../api/README.md).
+
+## Build for production
+
+```bash
+npm run build
+```
+
+Outputs static files to `dist/`. Serve with any static file server (nginx, caddy, etc.).
+
+## Tests
+
+```bash
+npm test           # Watch mode
+npx vitest run     # Single run (CI)
+```
+
+23 unit tests covering types, API client, and UI components.
+
+## Stack
+
+| Dependency | Version | Purpose |
+|---|---|---|
+| React | 19.x | UI framework |
+| TypeScript | 5.9.x | Type safety |
+| Vite | 7.x | Build tool and dev server |
+| Tailwind CSS | 4.x | Styling |
+| TanStack Query | 5.x | Server state and caching |
+| React Router | 7.x | Client-side routing |
+| Vitest | 4.x | Unit testing |
+
+## Pages
+
+- **Dashboard** -- Overview with recent agents, runs, and stats
+- **Agents** -- List, create, edit, delete agents
+- **Agent Detail** -- View agent config, run with inputs, see schemas
+- **Runs** -- List all runs with status filters
+- **Run Viewer** -- Real-time execution output with metadata
+- **Settings** -- Default provider, theme, auto-refresh (local storage)
