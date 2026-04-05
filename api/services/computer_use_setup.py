@@ -60,6 +60,7 @@ def _mcp_json_content(cache_enabled: bool = True) -> dict:
     return {
         "mcpServers": {
             "computer-use": {
+                "type": "stdio",
                 "command": _cu_venv_python(),
                 "args": ["-m", "computer_use.mcp_server", "--transport", "stdio"],
                 "cwd": str(PROJECT_ROOT),

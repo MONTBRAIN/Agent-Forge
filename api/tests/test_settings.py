@@ -279,6 +279,12 @@ class TestComputerUseSetupService:
             result = cu_setup.disable_computer_use()
             assert result["enabled"] is False
 
+    def test_mcp_json_includes_type_stdio(self):
+        """Claude Code requires 'type': 'stdio' in MCP server config."""
+        content = cu_setup._mcp_json_content()
+        server = content["mcpServers"]["computer-use"]
+        assert server.get("type") == "stdio"
+
     def test_mcp_json_uses_python_on_windows(self, tmp_path):
         """On Windows, .mcp.json uses 'python' not 'python3'."""
         with patch("api.utils.platform.sys") as mock_sys:
