@@ -11,7 +11,6 @@
   <img src="docs/line.svg" alt="Separator" width="100%", heigth = 20px>
 </p>
 
-
 <p align="center">
   <i><b>Independent agents that can operate on any task, no matter how complex.</b></i>
 </p>
